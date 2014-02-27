@@ -1,0 +1,40 @@
+declare parameter desiredAltitude.
+
+print "Determining closest apsis".
+
+if (apoapsis < 0) {
+	set apsisEta to eta:periapsis.
+}.
+
+if (apoapsis > 0) {
+	set apsisEta to eta:apoapsis.
+	
+	if (periapsis > 0) {
+		if (eta:periapsis < apsisEta) {
+			set apsisEta to eta:periapsis.
+		}.
+	}.
+}.
+
+print "Setting up insertion node".
+
+set circEta to time + apsisEta.
+
+if (apsisEta > period / 2) { set circEta to time. }.
+
+set circNode to node(circEta:seconds, 0,0,0).
+add circNode.
+
+if (apoapsis > 0 and periapsis < 0) {
+	lock nodeAltDelta to desiredAltitude - circNode:periapsis.
+	
+	until (abs(nodeAltDelta) < 100) {
+		set nodeChange to nodeAltDelta / 100.
+		if (nodeChange > 10) { set nodeChange to 10. }.
+		if (nodeChange < -10) { set nodeChange to -10. }.
+		
+		set circNode:prograde to circNode:prograde + nodeChange.
+	}.
+	
+	run nodechaser.
+}.

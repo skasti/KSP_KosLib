@@ -1,0 +1,62 @@
+declare parameter hoverAltitude.
+declare parameter gravity.
+clearscreen.
+
+print "AutoHover v0.1".
+print "Desired Altitude: " + hoverAltitude.
+print "Gravity: " + gravity.
+
+lock maxA to maxThrust / mass.
+lock sweetSpot to gravity / maxA.
+
+print "Maximum accelleration: " + maxA.
+print "Throttle sweetspot: ".
+print "Vertical speed: ".
+print "Altitude: ".
+print "Throttle: ".
+
+lock steering to up + r(0,0,180).
+set throttleControl to 0.
+
+lock throttle to throttleControl.
+
+until (stage:liquidFuel < 1) {
+	set dAlt to hoverAltitude - alt:radar.
+
+	
+	print sweetSpot at (20,4).
+	print verticalspeed at (16,5).
+
+	set throttleControl to sweetSpot - verticalspeed + dAlt.
+
+	print throttleControl at (11,7).
+	print alt:radar at (11,6).
+}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

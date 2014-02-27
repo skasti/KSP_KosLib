@@ -1,0 +1,6 @@
+declare parameter gravTurnStart.
+declare parameter desiredApoaps.
+declare parameter desiredPeriaps.
+
+run launch(gravTurnStart, desiredApoaps).
+run circularize(desiredPeriaps).

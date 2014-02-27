@@ -1,0 +1,11 @@
+declare parameter myTarget.
+clearscreen.
+
+print "Targetting: " + myTarget:name.
+
+if (apoapsis < 100000) and (periapsis < 100000) {
+	print "Must be in 100km+ orbit first!".
+}.
+if (apoapsis > 100000) and (periapsis > 100000) {
+		
+}.

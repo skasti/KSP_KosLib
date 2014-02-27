@@ -1,0 +1,30 @@
+clearscreen.
+
+sas off.
+set tControl to 1.
+lock throttle to tControl.
+lock steering to up + r(0,0,180).
+
+
+stage.
+
+
+until (altitude > 10000) {
+	if (verticalspeed > 250) {
+		set tControl to tControl - 0.01 .
+	}.
+
+	if (verticalspeed < 250) {
+		set tControl to tControl + 0.01 .
+	}.
+
+	if (tControl > 1) { set tControl to 1. }.
+	if (tControl < 0) { set tControl to 0. }.
+
+	print tControl at (0,0).
+	print throttle at (0,1).
+}.
+
+
+
+

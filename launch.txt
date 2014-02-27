@@ -1,0 +1,48 @@
+declare parameter gravTurnStart.
+declare parameter desiredApoaps.
+clearscreen.
+
+print "SAS off". sas off. wait 1.
+print "Lock steering". lock steering to up + r(0,0,180). wait 1.
+print "Lock throttle". lock throttle to 1. wait 1.
+print "".
+print "Starting countdown". wait 1.
+print "".
+print "3". wait 1.
+print "2". wait 1.
+print "1". wait 1.
+print "".
+print "liftoff!". stage.
+print "".
+
+clearscreen.
+
+until altitude > gravTurnStart {
+	print "Altitude: " + altitude at (0,0). wait 5.
+}.
+
+print "".
+print "beginning gravity turn".
+lock steering to up + R(0,60,0) + r(0,0,180).
+print "".
+
+set hasStaged to 0.
+
+when stage:liquidfuel = 0 then { 
+	print "out of fuel, staging!". 
+	stage. 
+	print "".
+	wait 2.
+	set hasStaged to 1.
+}.
+
+when (altitude > 50000) AND (hasStaged = 1) then {
+	print "extending panels".
+	panels on. 
+	print "".
+}.
+
+wait until apoapsis > desiredApoaps.
+lock throttle to 0.
+print "Reached desired apoaps.".
+print "".

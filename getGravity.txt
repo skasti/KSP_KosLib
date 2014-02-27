@@ -1,0 +1,5 @@
+declare parameter bodyName.
+
+if (bodyName = "10") {
+	print "ten".
+}

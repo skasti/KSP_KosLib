@@ -1,0 +1,5 @@
+clearscreen.
+
+until apoapsis < 90 {
+	print velocity:orbit at (0,0).
+}.

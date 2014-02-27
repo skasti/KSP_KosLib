@@ -1,0 +1,42 @@
+clearscreen.
+
+declare parameter gravity.
+
+print "AutoLand v0.1".
+lock maxA to maxThrust / mass.
+lock burnTime to velocity:surface:mag / maxA.
+lock speed to velocity:surface:mag.
+lock touchdownEta to alt:radar / speed.
+lock sweetSpot to gravity / maxA.
+
+print "Max Accelleration: ".
+print "Burntime to stop: ".
+print "Current altitude: ".
+print "Current speed: ".
+print "Touchdown: T - ".
+print "Throttle: ".
+print "Throttle sweetspot: ".
+
+sas off.
+lock steering to up.
+
+set throttleControl to 0.
+
+wait until (verticalspeed < 0).
+
+lock throttle to throttleControl.
+
+until (alt:radar < 1) {
+	print maxA at (20, 1).
+	print burnTime at (19,2).
+	print alt:radar at (19,3).
+	print speed at (16,4).
+	print touchdownEta at (16,5).
+	print throttleControl at (11,6).
+	print sweetSpot at (20,7).
+	
+	set vs to alt:radar / 5.
+	
+	set vs to verticalspeed + vs.	
+	set throttleControl to sweetSpot - vs.
+}.

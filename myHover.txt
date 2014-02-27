@@ -1,0 +1,106 @@
+declare parameter desiredA.
+declare desiredV.
+clearscreen.
+stage.
+
+print "Desired altitude: " + desiredA.
+print "Current altitude: " + alt:radar.
+
+set abortThreshold to stage:liquidfuel * 0.2 .
+
+set shouldAbort to 0.
+set currentT to 0.
+unlock throttle.
+lock throttle to currentT.
+sas on.
+
+print "Finding sweet spot".
+
+toggle ag2.
+until (verticalspeed > 0.025) {
+	set currentT to currentT + 0.001 .
+}
+toggle ag2.
+
+set sweetSpot to throttle.
+set currentT to sweetSpot - 0.01 .
+
+print "Sweetspot: " + sweetSpot.
+
+when stage:liquidfuel < abortThreshold then {
+	set shouldAbort to 1.
+}.
+
+
+until shouldAbort = 1 {
+
+	set currentA to alt:radar.
+	print currentA at (18,1).
+
+	set deltaA to desiredA - currentA.
+	
+	set desiredV to 0.
+	
+	if deltaA > 1 {
+		set desiredV to  0.01 .
+		
+		if desiredA > 5 {
+			set desiredV to 1 .
+		}.
+		
+		if desiredA > 10 {
+			set desiredV to 1.
+		}.
+		
+		if desiredA > 15 {
+			set desiredV to 2.
+		}.
+	}.
+
+	if deltaA < -1 {
+		set desiredV to  -0.01 .
+		
+		if desiredA < -5 {
+			set desiredV to -0.1 .
+		}.
+		
+		if desiredA < -10 {
+			set desiredV to -0.5.
+		}.
+	}.
+	
+	set deltaV to desiredV - verticalspeed.
+	set TChange to 0.
+	
+	if deltaV > 0 {
+		set TChange to 0.001 .
+		
+		if deltaV > 0.5 {
+			set TChange to 0.005 .
+		}
+	}
+
+	if deltaV < 0 {
+		set TChange to -0.001 .
+		
+		if deltaV < -0.5 {
+			set TChange to -0.005 .
+		}
+	}
+	
+	if (currentT < sweetSpot - 0.08) {
+		if (TChange < 0) { set TChange to 0. }.
+	}.
+	
+	if (currentT > sweetSpot + 0.08) {
+		if (TChange > 0) { set TChange to 0. }.
+	}.
+	
+	set currentT to currentT + TChange.
+}
+
+print "Aborting!".
+set currentT to 0.
+
+wait until (alt:radar < 10).
+

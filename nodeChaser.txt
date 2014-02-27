@@ -1,0 +1,30 @@
+clearscreen.
+print "NodeChaser v1.0".
+
+
+set maxA to maxthrust / mass.
+set burnTime to nextnode:deltav:mag / maxA.
+set halfTime to burnTime / 2.
+
+print "Max acceleration: " + maxA + "ms/s".
+print "Burn duration: " + burnTime + "s".
+print "Burn start: T - " + halfTime + "s".
+
+lock steering to nextnode.
+sas off.
+rcs off.
+
+wait until (nextnode:eta <= halfTime).
+
+set throttleC to 0.
+lock throttle to throttleC.
+
+until (nextnode:deltav:mag < 0.1) {
+		set throttleC to nextnode:deltav:mag / 10.
+}.
+
+lock throttle to 0.
+sas on.
+
+
+

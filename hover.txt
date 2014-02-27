@@ -1,0 +1,24 @@
+clearscreen.
+
+lock steering to up.
+declare desiredV to 0.
+
+until false {
+	if alt:radar < desiredA {
+		set desiredV to 0.1 .
+		print "going up" at (0,0).
+	}.
+	
+	if (alt:radar > desiredA {
+		set desiredV to -0.1 .
+		print "going down" at (0,0).
+	}.
+	
+	if (verticalspeed < desiredV) {
+		lock throttle to throttle + 0.1 .
+	}.
+	
+	if (verticalspeed > desiredV) {
+		lock throttle to throttle - 0.1 .
+	}.
+}.
